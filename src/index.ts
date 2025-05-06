@@ -9,4 +9,6 @@
  */
 
 export { format } from './utils/utils';
+export { HospitalSpaceManager } from './components/hospital-space-manager/hospital-space-manager';
+export { HospitalSpaceForm } from './components/hospital-space-form/hospital-space-form';
 export type * from './components.d.ts';

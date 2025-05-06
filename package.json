@@ -4,7 +4,9 @@
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/ros-project/ros-project.esm.js",
@@ -25,26 +27,32 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stenciljs/component-starter.git"
+    "url": "https://github.com/ionic-team/stencil-component-starter.git"
   },
   "files": [
     "dist/",
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build",
+    "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate"
   },
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "iconify": "^1.4.0"
+  },
   "devDependencies": {
-    "@stencil/core": "^4.27.1",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.5",
-    "jest": "^29.7.0",
-    "jest-cli": "^29.7.0",
-    "puppeteer": "^24.3.0"
+    "@stencil/core": "^4.0.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.11",
+    "jest": "^27.5.1",
+    "jest-cli": "^27.5.1",
+    "puppeteer": "^19.5.2"
   },
   "license": "MIT"
 }
