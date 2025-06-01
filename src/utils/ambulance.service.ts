@@ -1,6 +1,6 @@
-import { HospitalSpace, HospitalSpaceCreate, HospitalSpaceUpdate } from './hospital-space.model';
+import { Ambulance, AmbulanceCreate, AmbulanceUpdate } from './ambulance.model';
 
-export class HospitalSpaceService {
+export class AmbulanceService {
   private baseUrl: string;
 
   constructor(baseUrl: string = 'http://localhost:8080/api') {
@@ -33,31 +33,27 @@ export class HospitalSpaceService {
     return response.json();
   }
 
-  async getAllSpaces(): Promise<HospitalSpace[]> {
-    return this.makeRequest<HospitalSpace[]>('/spaces');
+  async getAllAmbulances(): Promise<Ambulance[]> {
+    return this.makeRequest<Ambulance[]>('/ambulances');
   }
 
-  async createSpace(space: HospitalSpaceCreate): Promise<HospitalSpace> {
-    return this.makeRequest<HospitalSpace>('/spaces', {
+  async createAmbulance(ambulance: AmbulanceCreate): Promise<Ambulance> {
+    return this.makeRequest<Ambulance>('/ambulances', {
       method: 'POST',
-      body: JSON.stringify(space),
+      body: JSON.stringify(ambulance),
     });
   }
 
-  async updateSpaceAssignment(spaceId: string, update: HospitalSpaceUpdate): Promise<HospitalSpace> {
-    return this.makeRequest<HospitalSpace>(`/spaces/${spaceId}`, {
+  async updateAmbulance(ambulanceId: string, update: AmbulanceUpdate): Promise<Ambulance> {
+    return this.makeRequest<Ambulance>(`/ambulances/${ambulanceId}`, {
       method: 'PUT',
       body: JSON.stringify(update),
     });
   }
 
-  async deleteSpace(spaceId: string): Promise<void> {
-    return this.makeRequest<void>(`/spaces/${spaceId}`, {
+  async deleteAmbulance(ambulanceId: string): Promise<void> {
+    return this.makeRequest<void>(`/ambulances/${ambulanceId}`, {
       method: 'DELETE',
     });
-  }
-
-  async checkHealth(): Promise<{ status: string; service: string }> {
-    return this.makeRequest<{ status: string; service: string }>('/health');
   }
 } 

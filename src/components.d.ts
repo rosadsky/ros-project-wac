@@ -5,13 +5,25 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Ambulance, AmbulanceCreate } from "./utils/ambulance.model";
 import { HospitalSpace, HospitalSpaceCreate } from "./utils/hospital-space.model";
+export { Ambulance, AmbulanceCreate } from "./utils/ambulance.model";
 export { HospitalSpace, HospitalSpaceCreate } from "./utils/hospital-space.model";
 export namespace Components {
+    interface AmbulanceForm {
+        "ambulance"?: Ambulance;
+    }
+    interface AmbulanceManager {
+        "apiBase": string;
+    }
+    interface HospitalDashboard {
+        "apiBase": string;
+    }
     interface HospitalSpaceForm {
         "space"?: HospitalSpace;
     }
     interface HospitalSpaceManager {
+        "apiBase": string;
     }
     interface MyComponent {
         /**
@@ -30,11 +42,45 @@ export namespace Components {
     interface RosListPlaces {
     }
 }
+export interface AmbulanceFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAmbulanceFormElement;
+}
 export interface HospitalSpaceFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLHospitalSpaceFormElement;
 }
 declare global {
+    interface HTMLAmbulanceFormElementEventMap {
+        "formSubmit": AmbulanceCreate;
+        "cancel": void;
+    }
+    interface HTMLAmbulanceFormElement extends Components.AmbulanceForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAmbulanceFormElementEventMap>(type: K, listener: (this: HTMLAmbulanceFormElement, ev: AmbulanceFormCustomEvent<HTMLAmbulanceFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAmbulanceFormElementEventMap>(type: K, listener: (this: HTMLAmbulanceFormElement, ev: AmbulanceFormCustomEvent<HTMLAmbulanceFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAmbulanceFormElement: {
+        prototype: HTMLAmbulanceFormElement;
+        new (): HTMLAmbulanceFormElement;
+    };
+    interface HTMLAmbulanceManagerElement extends Components.AmbulanceManager, HTMLStencilElement {
+    }
+    var HTMLAmbulanceManagerElement: {
+        prototype: HTMLAmbulanceManagerElement;
+        new (): HTMLAmbulanceManagerElement;
+    };
+    interface HTMLHospitalDashboardElement extends Components.HospitalDashboard, HTMLStencilElement {
+    }
+    var HTMLHospitalDashboardElement: {
+        prototype: HTMLHospitalDashboardElement;
+        new (): HTMLHospitalDashboardElement;
+    };
     interface HTMLHospitalSpaceFormElementEventMap {
         "formSubmit": HospitalSpaceCreate;
         "cancel": void;
@@ -72,6 +118,9 @@ declare global {
         new (): HTMLRosListPlacesElement;
     };
     interface HTMLElementTagNameMap {
+        "ambulance-form": HTMLAmbulanceFormElement;
+        "ambulance-manager": HTMLAmbulanceManagerElement;
+        "hospital-dashboard": HTMLHospitalDashboardElement;
         "hospital-space-form": HTMLHospitalSpaceFormElement;
         "hospital-space-manager": HTMLHospitalSpaceManagerElement;
         "my-component": HTMLMyComponentElement;
@@ -79,12 +128,24 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface AmbulanceForm {
+        "ambulance"?: Ambulance;
+        "onCancel"?: (event: AmbulanceFormCustomEvent<void>) => void;
+        "onFormSubmit"?: (event: AmbulanceFormCustomEvent<AmbulanceCreate>) => void;
+    }
+    interface AmbulanceManager {
+        "apiBase"?: string;
+    }
+    interface HospitalDashboard {
+        "apiBase"?: string;
+    }
     interface HospitalSpaceForm {
         "onCancel"?: (event: HospitalSpaceFormCustomEvent<void>) => void;
         "onFormSubmit"?: (event: HospitalSpaceFormCustomEvent<HospitalSpaceCreate>) => void;
         "space"?: HospitalSpace;
     }
     interface HospitalSpaceManager {
+        "apiBase"?: string;
     }
     interface MyComponent {
         /**
@@ -103,6 +164,9 @@ declare namespace LocalJSX {
     interface RosListPlaces {
     }
     interface IntrinsicElements {
+        "ambulance-form": AmbulanceForm;
+        "ambulance-manager": AmbulanceManager;
+        "hospital-dashboard": HospitalDashboard;
         "hospital-space-form": HospitalSpaceForm;
         "hospital-space-manager": HospitalSpaceManager;
         "my-component": MyComponent;
@@ -113,6 +177,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "ambulance-form": LocalJSX.AmbulanceForm & JSXBase.HTMLAttributes<HTMLAmbulanceFormElement>;
+            "ambulance-manager": LocalJSX.AmbulanceManager & JSXBase.HTMLAttributes<HTMLAmbulanceManagerElement>;
+            "hospital-dashboard": LocalJSX.HospitalDashboard & JSXBase.HTMLAttributes<HTMLHospitalDashboardElement>;
             "hospital-space-form": LocalJSX.HospitalSpaceForm & JSXBase.HTMLAttributes<HTMLHospitalSpaceFormElement>;
             "hospital-space-manager": LocalJSX.HospitalSpaceManager & JSXBase.HTMLAttributes<HTMLHospitalSpaceManagerElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;

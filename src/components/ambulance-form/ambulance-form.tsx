@@ -1,49 +1,43 @@
 import { Component, h, Prop, State, Event, EventEmitter } from '@stencil/core';
-import { HospitalSpace, HospitalSpaceCreate } from '../../utils/hospital-space.model';
+import { Ambulance, AmbulanceCreate } from '../../utils/ambulance.model';
 
 @Component({
-  tag: 'hospital-space-form',
-  styleUrl: 'hospital-space-form.css',
+  tag: 'ambulance-form',
+  styleUrl: 'ambulance-form.css',
   shadow: true,
 })
-export class HospitalSpaceForm {
-  @Prop() space?: HospitalSpace;
-  @Event() formSubmit: EventEmitter<HospitalSpaceCreate>;
+export class AmbulanceForm {
+  @Prop() ambulance?: Ambulance;
+  @Event() formSubmit: EventEmitter<AmbulanceCreate>;
   @Event() cancel: EventEmitter<void>;
 
-  @State() formData: HospitalSpaceCreate = {
+  @State() formData: AmbulanceCreate = {
     name: '',
-    floor: 1,
-    type: 'operating_room',
-    capacity: 1,
+    type: 'emergency',
+    location: '',
   };
 
-  @State() errors: Partial<Record<keyof HospitalSpaceCreate, string>> = {};
+  @State() errors: Partial<Record<keyof AmbulanceCreate, string>> = {};
 
   componentWillLoad() {
-    if (this.space) {
+    if (this.ambulance) {
       this.formData = {
-        name: this.space.name,
-        floor: this.space.floor,
-        type: this.space.type,
-        capacity: this.space.capacity,
+        name: this.ambulance.name,
+        type: this.ambulance.type,
+        location: this.ambulance.location,
       };
     }
   }
 
   private validateForm(): boolean {
-    const newErrors: Partial<Record<keyof HospitalSpaceCreate, string>> = {};
+    const newErrors: Partial<Record<keyof AmbulanceCreate, string>> = {};
 
     if (!this.formData.name.trim()) {
       newErrors.name = 'Name is required';
     }
 
-    if (this.formData.floor < 1) {
-      newErrors.floor = 'Floor must be at least 1';
-    }
-
-    if (this.formData.capacity < 1) {
-      newErrors.capacity = 'Capacity must be at least 1';
+    if (!this.formData.location.trim()) {
+      newErrors.location = 'Location is required';
     }
 
     this.errors = newErrors;
@@ -57,9 +51,9 @@ export class HospitalSpaceForm {
     }
   };
 
-  private handleInputChange = (field: keyof HospitalSpaceCreate) => (e: Event) => {
+  private handleInputChange = (field: keyof AmbulanceCreate) => (e: Event) => {
     const target = e.target as HTMLInputElement | HTMLSelectElement;
-    const value = target.type === 'number' ? Number(target.value) : target.value;
+    const value = target.value;
     this.formData = { ...this.formData, [field]: value };
     // Clear error when user starts typing
     if (this.errors[field]) {
@@ -72,7 +66,7 @@ export class HospitalSpaceForm {
       <div class="form-container">
         <form onSubmit={this.handleSubmit}>
           <div class="form-header">
-            <h2>{this.space ? 'Edit Space' : 'Create New Space'}</h2>
+            <h2>{this.ambulance ? 'Edit Ambulance' : 'Create New Ambulance'}</h2>
             <button type="button" class="close-button" onClick={() => this.cancel.emit()}>
               <span class="material-icons">close</span>
             </button>
@@ -87,7 +81,7 @@ export class HospitalSpaceForm {
                 value={this.formData.name}
                 onInput={this.handleInputChange('name')}
                 class={this.errors.name ? 'error' : ''}
-                placeholder="Enter space name"
+                placeholder="Enter ambulance name"
               />
             </div>
             {this.errors.name && <span class="error-message">{this.errors.name}</span>}
@@ -101,44 +95,28 @@ export class HospitalSpaceForm {
                 onInput={this.handleInputChange('type')}
                 class={this.errors.type ? 'error' : ''}
               >
-                <option value="operating_room" selected={this.formData.type === 'operating_room'}>Operating Room</option>
-                <option value="emergency_room" selected={this.formData.type === 'emergency_room'}>Emergency Room</option>
-                <option value="ward" selected={this.formData.type === 'ward'}>Ward</option>
+                <option value="emergency" selected={this.formData.type === 'emergency'}>Emergency</option>
                 <option value="icu" selected={this.formData.type === 'icu'}>ICU</option>
-                <option value="consultation_room" selected={this.formData.type === 'consultation_room'}>Consultation Room</option>
+                <option value="basic" selected={this.formData.type === 'basic'}>Basic</option>
+                <option value="transport" selected={this.formData.type === 'transport'}>Transport</option>
               </select>
             </div>
             {this.errors.type && <span class="error-message">{this.errors.type}</span>}
           </div>
 
           <div class="form-group">
-            <label htmlFor="floor">Floor *</label>
+            <label htmlFor="location">Location *</label>
             <div class="input-wrapper">
               <input
-                type="number"
-                id="floor"
-                value={this.formData.floor}
-                onInput={this.handleInputChange('floor')}
-                min="1"
-                class={this.errors.floor ? 'error' : ''}
+                type="text"
+                id="location"
+                value={this.formData.location}
+                onInput={this.handleInputChange('location')}
+                class={this.errors.location ? 'error' : ''}
+                placeholder="Enter current location"
               />
             </div>
-            {this.errors.floor && <span class="error-message">{this.errors.floor}</span>}
-          </div>
-
-          <div class="form-group">
-            <label htmlFor="capacity">Capacity *</label>
-            <div class="input-wrapper">
-              <input
-                type="number"
-                id="capacity"
-                value={this.formData.capacity}
-                onInput={this.handleInputChange('capacity')}
-                min="1"
-                class={this.errors.capacity ? 'error' : ''}
-              />
-            </div>
-            {this.errors.capacity && <span class="error-message">{this.errors.capacity}</span>}
+            {this.errors.location && <span class="error-message">{this.errors.location}</span>}
           </div>
 
           <div class="form-actions">
@@ -146,7 +124,7 @@ export class HospitalSpaceForm {
               Cancel
             </button>
             <button type="submit" class="submit-button">
-              {this.space ? 'Update' : 'Create'}
+              {this.ambulance ? 'Update' : 'Create'}
             </button>
           </div>
         </form>

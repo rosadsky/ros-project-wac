@@ -1,40 +1,27 @@
 export interface HospitalSpace {
   id: string;
+  space_id: string;
   name: string;
+  type: 'operating_room' | 'emergency_room' | 'ward' | 'icu' | 'consultation_room';
   floor: number;
-  roomNumber: string;
-  type: 'AMBULANCE' | 'DEPARTMENT';
-  assignedTo?: {
-    id: string;
-    name: string;
-    type: 'AMBULANCE' | 'DEPARTMENT';
-  };
-  status: 'AVAILABLE' | 'OCCUPIED';
   capacity: number;
-  description?: string;
+  status: 'available' | 'occupied' | 'maintenance';
+  assigned_to?: string | null;
+  assigned_type?: 'ambulance' | 'department' | null;
+  assigned_id?: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface HospitalSpaceCreate {
   name: string;
+  type: 'operating_room' | 'emergency_room' | 'ward' | 'icu' | 'consultation_room';
   floor: number;
-  roomNumber: string;
-  type: 'AMBULANCE' | 'DEPARTMENT';
   capacity: number;
-  description?: string;
 }
 
 export interface HospitalSpaceUpdate {
-  id: string;
-  name?: string;
-  floor?: number;
-  roomNumber?: string;
-  type?: 'AMBULANCE' | 'DEPARTMENT';
-  assignedTo?: {
-    id: string;
-    name: string;
-    type: 'AMBULANCE' | 'DEPARTMENT';
-  };
-  status?: 'AVAILABLE' | 'OCCUPIED';
-  capacity?: number;
-  description?: string;
+  assigned_to?: string | null;
+  assigned_type?: 'ambulance' | 'department' | null;
+  assigned_id?: string | null;
 } 
