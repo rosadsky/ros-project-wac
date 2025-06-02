@@ -55,7 +55,6 @@ export class AmbulanceForm {
     const target = e.target as HTMLInputElement | HTMLSelectElement;
     const value = target.value;
     this.formData = { ...this.formData, [field]: value };
-    // Clear error when user starts typing
     if (this.errors[field]) {
       this.errors = { ...this.errors, [field]: undefined };
     }

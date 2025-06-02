@@ -45,31 +45,34 @@ export class HospitalDashboard {
     return (
       <nav class="dashboard-nav">
         <div class="nav-brand">
-          <span class="material-icons">local_hospital</span>
+          <ion-icon name="medical"></ion-icon>
           <h1>Hospital Management System</h1>
         </div>
         <div class="nav-links">
-          <button 
+          <ion-button 
+            fill={this.currentView === 'spaces' ? 'solid' : 'clear'}
             class={this.currentView === 'spaces' ? 'nav-button active' : 'nav-button'}
             onClick={() => this.setView('spaces')}
           >
-            <span class="material-icons">meeting_room</span>
+            <ion-icon slot="start" name="bed"></ion-icon>
             Spaces
-          </button>
-          <button 
+          </ion-button>
+          <ion-button 
+            fill={this.currentView === 'ambulances' ? 'solid' : 'clear'}
             class={this.currentView === 'ambulances' ? 'nav-button active' : 'nav-button'}
             onClick={() => this.setView('ambulances')}
           >
-            <span class="material-icons">local_hospital</span>
+            <ion-icon slot="start" name="medical"></ion-icon>
             Ambulances
-          </button>
-          <button 
+          </ion-button>
+          <ion-button 
+            fill={this.currentView === 'health' ? 'solid' : 'clear'}
             class={this.currentView === 'health' ? 'nav-button active' : 'nav-button'}
             onClick={() => this.setView('health')}
           >
-            <span class="material-icons">health_and_safety</span>
+            <ion-icon slot="start" name="shield-checkmark"></ion-icon>
             Health
-          </button>
+          </ion-button>
         </div>
       </nav>
     );
@@ -80,26 +83,27 @@ export class HospitalDashboard {
       <div class="health-view">
         <div class="health-header">
           <h2>API Health Status</h2>
-          <button 
+          <ion-button 
+            fill="outline"
             class="refresh-button"
             onClick={() => this.checkHealth()}
             disabled={this.loading}
           >
-            <span class="material-icons">refresh</span>
+            <ion-icon slot="start" name="refresh"></ion-icon>
             Refresh
-          </button>
+          </ion-button>
         </div>
         
         {this.loading && (
           <div class="loading-container">
-            <div class="loading-spinner"></div>
+            <ion-spinner name="circular"></ion-spinner>
             <p>Checking API health...</p>
           </div>
         )}
         
         {this.error && (
           <div class="health-error">
-            <span class="material-icons">error</span>
+            <ion-icon name="alert-circle"></ion-icon>
             <div>
               <h3>Connection Failed</h3>
               <p>{this.error}</p>
@@ -110,7 +114,7 @@ export class HospitalDashboard {
         
         {this.healthStatus && !this.loading && (
           <div class="health-success">
-            <span class="material-icons">check_circle</span>
+            <ion-icon name="checkmark-circle"></ion-icon>
             <div>
               <h3>API is Healthy</h3>
               <p>Status: {this.healthStatus.status}</p>

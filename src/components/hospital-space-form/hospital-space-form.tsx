@@ -73,81 +73,81 @@ export class HospitalSpaceForm {
         <form onSubmit={this.handleSubmit}>
           <div class="form-header">
             <h2>{this.space ? 'Edit Space' : 'Create New Space'}</h2>
-            <button type="button" class="close-button" onClick={() => this.cancel.emit()}>
-              <span class="material-icons">close</span>
-            </button>
+            <ion-button 
+              fill="clear" 
+              class="close-button" 
+              onClick={() => this.cancel.emit()}
+            >
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
           </div>
           
           <div class="form-group">
-            <label htmlFor="name">Name *</label>
-            <div class="input-wrapper">
-              <input
-                type="text"
-                id="name"
-                value={this.formData.name}
-                onInput={this.handleInputChange('name')}
-                class={this.errors.name ? 'error' : ''}
-                placeholder="Enter space name"
-              />
-            </div>
+            <ion-label position="stacked">Name *</ion-label>
+            <ion-input
+              type="text"
+              value={this.formData.name}
+              onIonInput={this.handleInputChange('name')}
+              class={this.errors.name ? 'error' : ''}
+              placeholder="Enter space name"
+            ></ion-input>
             {this.errors.name && <span class="error-message">{this.errors.name}</span>}
           </div>
 
           <div class="form-group">
-            <label htmlFor="type">Type *</label>
-            <div class="input-wrapper">
-              <select
-                id="type"
-                onInput={this.handleInputChange('type')}
-                class={this.errors.type ? 'error' : ''}
-              >
-                <option value="operating_room" selected={this.formData.type === 'operating_room'}>Operating Room</option>
-                <option value="emergency_room" selected={this.formData.type === 'emergency_room'}>Emergency Room</option>
-                <option value="ward" selected={this.formData.type === 'ward'}>Ward</option>
-                <option value="icu" selected={this.formData.type === 'icu'}>ICU</option>
-                <option value="consultation_room" selected={this.formData.type === 'consultation_room'}>Consultation Room</option>
-              </select>
-            </div>
+            <ion-label position="stacked">Type *</ion-label>
+            <ion-select
+              value={this.formData.type}
+              onIonChange={this.handleInputChange('type')}
+              class={this.errors.type ? 'error' : ''}
+              placeholder="Select space type"
+            >
+              <ion-select-option value="operating_room">Operating Room</ion-select-option>
+              <ion-select-option value="emergency_room">Emergency Room</ion-select-option>
+              <ion-select-option value="ward">Ward</ion-select-option>
+              <ion-select-option value="icu">ICU</ion-select-option>
+              <ion-select-option value="consultation_room">Consultation Room</ion-select-option>
+            </ion-select>
             {this.errors.type && <span class="error-message">{this.errors.type}</span>}
           </div>
 
-          <div class="form-group">
-            <label htmlFor="floor">Floor *</label>
-            <div class="input-wrapper">
-              <input
-                type="number"
-                id="floor"
-                value={this.formData.floor}
-                onInput={this.handleInputChange('floor')}
-                min="1"
-                class={this.errors.floor ? 'error' : ''}
-              />
-            </div>
+          <div>
+            <ion-label position="stacked">Floor *</ion-label>
+            <ion-input
+              type="number"
+              value={this.formData.floor}
+              onIonInput={this.handleInputChange('floor')}
+              min="1"
+            ></ion-input>
             {this.errors.floor && <span class="error-message">{this.errors.floor}</span>}
           </div>
 
           <div class="form-group">
-            <label htmlFor="capacity">Capacity *</label>
-            <div class="input-wrapper">
-              <input
-                type="number"
-                id="capacity"
-                value={this.formData.capacity}
-                onInput={this.handleInputChange('capacity')}
-                min="1"
-                class={this.errors.capacity ? 'error' : ''}
-              />
-            </div>
+            <ion-label position="stacked">Capacity *</ion-label>
+            <ion-input
+              type="number"
+              value={this.formData.capacity}
+              onIonInput={this.handleInputChange('capacity')}
+              min="1"
+            ></ion-input>
             {this.errors.capacity && <span class="error-message">{this.errors.capacity}</span>}
           </div>
 
           <div class="form-actions">
-            <button type="button" class="cancel-button" onClick={() => this.cancel.emit()}>
+            <ion-button 
+              fill="outline" 
+              color="medium" 
+              class="cancel-button" 
+              onClick={() => this.cancel.emit()}
+            >
               Cancel
-            </button>
-            <button type="submit" class="submit-button">
+            </ion-button>
+            <ion-button 
+              type="submit" 
+              class="submit-button"
+            >
               {this.space ? 'Update' : 'Create'}
-            </button>
+            </ion-button>
           </div>
         </form>
       </div>

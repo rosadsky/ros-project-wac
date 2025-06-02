@@ -1,4 +1,4 @@
-# hospital-space-manager
+# hospital-dashboard
 
 
 
@@ -14,20 +14,19 @@
 
 ## Dependencies
 
-### Used by
-
- - [hospital-dashboard](../hospital-dashboard)
-
 ### Depends on
 
-- [hospital-space-form](../hospital-space-form)
+- [hospital-space-manager](../hospital-space-manager)
+- [ambulance-manager](../ambulance-manager)
 
 ### Graph
 ```mermaid
 graph TD;
-  hospital-space-manager --> hospital-space-form
   hospital-dashboard --> hospital-space-manager
-  style hospital-space-manager fill:#f9f,stroke:#333,stroke-width:4px
+  hospital-dashboard --> ambulance-manager
+  hospital-space-manager --> hospital-space-form
+  ambulance-manager --> ambulance-form
+  style hospital-dashboard fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

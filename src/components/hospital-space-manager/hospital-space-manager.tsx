@@ -133,14 +133,19 @@ export class HospitalSpaceManager {
         <div class="modal-content" onClick={(e) => e.stopPropagation()}>
           <div class="modal-header">
             <h3>Assign Space: {this.assigningSpace.name}</h3>
-            <button class="close-button" onClick={() => this.assigningSpace = null}>
-              <span class="material-icons">close</span>
-            </button>
+            <ion-button 
+              fill="clear" 
+              class="close-button" 
+              onClick={() => this.assigningSpace = null}
+            >
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
           </div>
           
           <div class="modal-body">
             <div class="assignment-options">
-              <button 
+              <ion-button 
+                fill="outline"
                 class="assignment-button"
                 onClick={() => this.handleAssignment(this.assigningSpace!.space_id, {
                   assigned_to: null,
@@ -148,14 +153,15 @@ export class HospitalSpaceManager {
                   assigned_id: null
                 })}
               >
-                <span class="material-icons">clear</span>
+                <ion-icon slot="start" name="close"></ion-icon>
                 Clear Assignment
-              </button>
+              </ion-button>
               
               <div class="ambulance-list">
                 <h4>Assign to Ambulance:</h4>
                 {this.ambulances.map(ambulance => (
-                  <button 
+                  <ion-button 
+                    fill="outline"
                     class="ambulance-assignment-button"
                     onClick={() => this.handleAssignment(this.assigningSpace!.space_id, {
                       assigned_to: ambulance.name,
@@ -163,12 +169,12 @@ export class HospitalSpaceManager {
                       assigned_id: ambulance.ambulance_id
                     })}
                   >
-                    <span class="material-icons">local_hospital</span>
+                    <ion-icon slot="start" name="medical"></ion-icon>
                     <div>
                       <div class="ambulance-name">{ambulance.name}</div>
                       <div class="ambulance-details">{ambulance.type} - {ambulance.location}</div>
                     </div>
-                  </button>
+                  </ion-button>
                 ))}
               </div>
             </div>
@@ -183,33 +189,32 @@ export class HospitalSpaceManager {
       <div class="hospital-space-manager">
         <div class="header">
           <h1>Hospital Space Management</h1>
-          <button 
-            class="add-button"
+          <ion-button 
             onClick={() => this.showCreateForm = true}
             disabled={this.loading}
           >
-            <span class="material-icons">add</span>
+            <ion-icon slot="start" name="add"></ion-icon>
             Add New Space
-          </button>
+          </ion-button>
         </div>
 
         {this.error && (
           <div class="error-message">
-            <span class="material-icons">error</span>
+            <ion-icon name="alert-circle"></ion-icon>
             {this.error}
           </div>
         )}
 
         {this.successMessage && (
           <div class="success-message">
-            <span class="material-icons">check_circle</span>
+            <ion-icon name="checkmark-circle"></ion-icon>
             {this.successMessage}
           </div>
         )}
 
         {this.loading && (
           <div class="loading-overlay">
-            <div class="loading-spinner"></div>
+            <ion-spinner name="circular"></ion-spinner>
           </div>
         )}
 
@@ -232,58 +237,61 @@ export class HospitalSpaceManager {
 
         <div class="spaces-list">
           {this.spaces.map(space => (
-            <div class="space-card">
-              <div class="card-header">
-                <h3>{space.name}</h3>
-                <span class={`status-badge ${this.getStatusBadgeClass(space.status)}`}>
+            <ion-card class="space-card">
+              <ion-card-header class="card-header">
+                <ion-card-title>{space.name}</ion-card-title>
+                <ion-badge class={this.getStatusBadgeClass(space.status)}>
                   {space.status}
-                </span>
-              </div>
-              <div class="card-content">
+                </ion-badge>
+              </ion-card-header>
+              <ion-card-content class="card-content">
                 <p>
-                  <span class="material-icons">business</span>
+                  <ion-icon name="business"></ion-icon>
                   Floor {space.floor}
                 </p>
                 <p>
-                  <span class="material-icons">category</span>
+                  <ion-icon name="apps"></ion-icon>
                   {this.getTypeDisplayName(space.type)}
                 </p>
                 <p>
-                  <span class="material-icons">group</span>
+                  <ion-icon name="people"></ion-icon>
                   Capacity: {space.capacity}
                 </p>
                 {space.assigned_to && (
                   <p class="assignment-info">
-                    <span class="material-icons">assignment</span>
+                    <ion-icon name="clipboard"></ion-icon>
                     Assigned to: {space.assigned_to} ({space.assigned_type})
                   </p>
                 )}
-              </div>
+              </ion-card-content>
               <div class="card-actions">
-                <button 
+                <ion-button 
+                  fill="outline"
                   class="assign-button"
                   onClick={() => this.assigningSpace = space}
                   disabled={this.loading}
                 >
-                  <span class="material-icons">assignment</span>
+                  <ion-icon slot="start" name="clipboard"></ion-icon>
                   Assign
-                </button>
-                <button 
+                </ion-button>
+                <ion-button 
+                  fill="outline"
+                  color="danger"
                   class="delete-button"
                   onClick={() => this.handleDelete(space.space_id)}
                   disabled={this.loading}
                 >
-                  <span class="material-icons">delete</span>
+                  <ion-icon slot="start" name="trash"></ion-icon>
                   Delete
-                </button>
+                </ion-button>
               </div>
-            </div>
+            </ion-card>
           ))}
         </div>
 
         {this.spaces.length === 0 && !this.loading && (
           <div class="empty-state">
-            <span class="material-icons">meeting_room</span>
+            <ion-icon name="business"></ion-icon>
             <p>No spaces found. Click "Add New Space" to create one.</p>
           </div>
         )}

@@ -92,15 +92,6 @@ export class AmbulanceManager {
     }
   }
 
-  private getStatusBadgeClass(status: string): string {
-    switch (status) {
-      case 'available': return 'status-available';
-      case 'on_duty': return 'status-on-duty';
-      case 'maintenance': return 'status-maintenance';
-      case 'out_of_service': return 'status-out-of-service';
-      default: return 'status-unknown';
-    }
-  }
 
   private getTypeDisplayName(type: string): string {
     switch (type) {
@@ -117,33 +108,40 @@ export class AmbulanceManager {
       <div class="ambulance-manager">
         <div class="header">
           <h1>Ambulance Management</h1>
-          <button 
-            class="add-button"
+          <ion-button 
+            fill="solid"
+            color="primary"
             onClick={() => this.showCreateForm = true}
             disabled={this.loading}
           >
-            <span class="material-icons">add</span>
+            <ion-icon slot="start" name="add"></ion-icon>
             Add New Ambulance
-          </button>
+          </ion-button>
         </div>
 
         {this.error && (
-          <div class="error-message">
-            <span class="material-icons">error</span>
-            {this.error}
-          </div>
+          <ion-alert
+            isOpen={!!this.error}
+            header="Error"
+            message={this.error}
+            buttons={['OK']}
+            onDidDismiss={() => this.error = null}
+          ></ion-alert>
         )}
 
         {this.successMessage && (
-          <div class="success-message">
-            <span class="material-icons">check_circle</span>
-            {this.successMessage}
-          </div>
+          <ion-toast
+            isOpen={!!this.successMessage}
+            message={this.successMessage}
+            duration={3000}
+            color="success"
+            onDidDismiss={() => this.successMessage = null}
+          ></ion-toast>
         )}
 
         {this.loading && (
           <div class="loading-overlay">
-            <div class="loading-spinner"></div>
+            <ion-spinner name="crescent"></ion-spinner>
           </div>
         )}
 
@@ -164,56 +162,68 @@ export class AmbulanceManager {
 
         <div class="ambulances-list">
           {this.ambulances.map(ambulance => (
-            <div class="ambulance-card">
-              <div class="card-header">
-                <h3>{ambulance.name}</h3>
-                <span class={`status-badge ${this.getStatusBadgeClass(ambulance.status)}`}>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{ambulance.name}</ion-card-title>
+                <ion-badge color={this.getStatusBadgeColor(ambulance.status)}>
                   {ambulance.status.replace('_', ' ')}
-                </span>
-              </div>
-              <div class="card-content">
-                <p>
-                  <span class="material-icons">local_hospital</span>
-                  Type: {this.getTypeDisplayName(ambulance.type)}
-                </p>
-                <p>
-                  <span class="material-icons">location_on</span>
-                  Location: {ambulance.location}
-                </p>
-                <p>
-                  <span class="material-icons">schedule</span>
-                  Created: {new Date(ambulance.created_at).toLocaleDateString()}
-                </p>
-              </div>
-              <div class="card-actions">
-                <button 
-                  class="edit-button"
-                  onClick={() => this.editingAmbulance = ambulance}
-                  disabled={this.loading}
-                >
-                  <span class="material-icons">edit</span>
-                  Edit
-                </button>
-                <button 
-                  class="delete-button"
-                  onClick={() => this.handleDelete(ambulance.ambulance_id)}
-                  disabled={this.loading}
-                >
-                  <span class="material-icons">delete</span>
-                  Delete
-                </button>
-              </div>
-            </div>
+                </ion-badge>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item lines="none">
+                  <ion-icon slot="start" name="medical"></ion-icon>
+                  <ion-label>Type: {this.getTypeDisplayName(ambulance.type)}</ion-label>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-icon slot="start" name="location"></ion-icon>
+                  <ion-label>Location: {ambulance.location}</ion-label>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-icon slot="start" name="time"></ion-icon>
+                  <ion-label>Created: {new Date(ambulance.created_at).toLocaleDateString()}</ion-label>
+                </ion-item>
+                <div class="card-actions">
+                  <ion-button 
+                    fill="outline"
+                    color="medium"
+                    onClick={() => this.editingAmbulance = ambulance}
+                    disabled={this.loading}
+                  >
+                    <ion-icon slot="start" name="create"></ion-icon>
+                    Edit
+                  </ion-button>
+                  <ion-button 
+                    fill="outline"
+                    color="danger"
+                    onClick={() => this.handleDelete(ambulance.ambulance_id)}
+                    disabled={this.loading}
+                  >
+                    <ion-icon slot="start" name="trash"></ion-icon>
+                    Delete
+                  </ion-button>
+                </div>
+              </ion-card-content>
+            </ion-card>
           ))}
         </div>
 
         {this.ambulances.length === 0 && !this.loading && (
           <div class="empty-state">
-            <span class="material-icons">local_hospital</span>
+            <ion-icon name="medical" size="large"></ion-icon>
             <p>No ambulances found. Click "Add New Ambulance" to create one.</p>
           </div>
         )}
       </div>
     );
+  }
+
+  private getStatusBadgeColor(status: string): string {
+    switch (status) {
+      case 'available': return 'success';
+      case 'on_duty': return 'primary';
+      case 'maintenance': return 'warning';
+      case 'out_of_service': return 'danger';
+      default: return 'medium';
+    }
   }
 } 
